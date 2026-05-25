@@ -37,18 +37,18 @@ export default function Post() {
             &larr; All pieces
           </Link>
 
-          {/* Eyebrow */}
-          <div className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)] mb-[24px]">
-            {post.dayNumber ? `Day ${post.dayNumber} · ` : (post.pinned ? 'Intro · ' : '')}
-            <time dateTime={post.date}>{formattedDate}</time>
-            {` · ${post.readingTimeMinutes} min read`}
+          {/* Header block */}
+          <div className="flex flex-col gap-[28px] mb-[72px]">
+            <div className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)]">
+              {post.dayNumber ? `Day ${post.dayNumber} · ` : (post.pinned ? 'Intro · ' : '')}
+              <time dateTime={post.date}>{formattedDate}</time>
+              {` · ${post.readingTimeMinutes} min read`}
+            </div>
+
+            <h1 className="t-h1">{post.title}</h1>
+
+            <p className="t-lede">{post.description}</p>
           </div>
-
-          {/* Title */}
-          <h1 className="t-h1 mb-[24px]">{post.title}</h1>
-
-          {/* Description / lede */}
-          <p className="t-lede mb-[72px]">{post.description}</p>
 
           {/* Body */}
           <article
