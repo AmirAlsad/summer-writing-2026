@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { getPublishedPosts } from "@/lib/content";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
-import { Header, Footer } from "@/components/Layout";
+import { Footer } from "@/components/Layout";
 
 export default function Home() {
   useDocumentMeta({
@@ -38,8 +38,6 @@ export default function Home() {
   
   return (
     <div className="min-h-[100dvh] flex flex-col bg-[var(--paper)] text-[var(--ink)]">
-      <Header />
-      
       <main className="flex-1">
         {/* Hero Section */}
         <section 
@@ -127,7 +125,7 @@ export default function Home() {
                     no-underline
                   `}
                 >
-                  <div className="day font-display font-black text-[42px] md:text-[54px] leading-[0.9] tracking-[-2px] text-[var(--ink)] transition-all duration-200 group-hover:text-[var(--hot-pink)] group-hover:-translate-y-[2px] group-hover:-translate-x-[2px] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                  <div className="day font-display font-black text-[42px] md:text-[54px] leading-[0.9] tracking-[-2px] text-[var(--ink)]">
                     {post.pinned ? (
                       <span className="inline-block font-mono text-[13px] font-bold tracking-[0.08em] border-[2.5px] border-[var(--ink)] bg-[var(--hot-pink)] text-[var(--paper)] px-2 py-1 shadow-[2px_2px_0_var(--ink)] leading-none mt-2">INTRO</span>
                     ) : (
@@ -140,7 +138,7 @@ export default function Home() {
                     )}
                   </div>
                   <div>
-                    <h3 className="font-display font-extrabold text-[24px] md:text-[30px] leading-[1] tracking-[-0.5px] text-[var(--ink)] mb-[6px] transition-colors duration-200 group-hover:text-[var(--hot-pink)] m-0">
+                    <h3 className="font-display font-extrabold text-[24px] md:text-[30px] leading-[1] tracking-[-0.5px] text-[var(--ink)] mb-[6px] m-0">
                       {post.title}
                     </h3>
                     <p className="font-serif italic text-[16px] leading-[1.5] text-[var(--ink-soft)] m-0 max-w-[520px]">

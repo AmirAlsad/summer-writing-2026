@@ -251,15 +251,12 @@ strong { font-weight: 700; }
 
 a {
   color: var(--link);
+  text-decoration: none;
+}
+a:hover {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
-}
-a:hover {
-  color: var(--link-hover);
-  background: var(--hot-pink);
-  color: var(--paper);
-  text-decoration: none;
 }
 
 /* =========================================================

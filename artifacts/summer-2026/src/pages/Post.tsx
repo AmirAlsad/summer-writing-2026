@@ -1,7 +1,7 @@
 import { useRoute, Link } from "wouter";
 import { getPostBySlug, getAdjacentPosts } from "@/lib/content";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
-import { Header, Footer } from "@/components/Layout";
+import { Footer } from "@/components/Layout";
 import NotFound from "@/pages/not-found";
 
 export default function Post() {
@@ -26,8 +26,6 @@ export default function Post() {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-[var(--paper)] text-[var(--ink)]">
-      <Header />
-      
       <main className="flex-1 w-full mx-auto px-[20px] md:px-[32px] py-[32px] md:py-[64px] relative">
         <div className="max-w-[1200px] mx-auto relative">
           {/* Sticky day-counter chip */}
@@ -51,7 +49,7 @@ export default function Post() {
             
             {/* Body */}
             <article 
-              className="article-body prose prose-lg max-w-none prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-[var(--ink)] prose-p:font-serif prose-p:text-[var(--ink)] prose-p:text-[20px] prose-p:leading-[1.7] prose-a:text-[var(--hot-pink)] prose-a:underline prose-a:decoration-2 prose-a:underline-offset-[3px] hover:prose-a:bg-[var(--hot-pink)] hover:prose-a:text-[var(--paper)] hover:prose-a:no-underline prose-blockquote:font-editorial prose-blockquote:italic prose-blockquote:border-l-4 prose-blockquote:border-[var(--hot-pink)] prose-blockquote:pl-[16px] prose-blockquote:text-[24px] prose-blockquote:text-[var(--ink-soft)] prose-code:font-mono prose-code:bg-[var(--paper-2)] prose-code:border prose-code:border-[var(--rule-soft)] prose-code:rounded-[2px] prose-code:px-[4px] prose-code:py-[2px] prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none prose-img:border-[3px] prose-img:border-[var(--ink)] prose-img:shadow-[5px_5px_0_var(--ink)] prose-img:my-[32px] prose-ul:font-serif prose-ul:text-[20px] prose-ol:font-serif prose-ol:text-[20px]"
+              className="article-body prose prose-lg max-w-none prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-[var(--ink)] prose-p:font-serif prose-p:text-[var(--ink)] prose-p:text-[20px] prose-p:leading-[1.7] prose-a:text-[var(--hot-pink)] prose-a:no-underline hover:prose-a:underline hover:prose-a:decoration-2 hover:prose-a:underline-offset-[3px] prose-blockquote:font-editorial prose-blockquote:italic prose-blockquote:border-l-4 prose-blockquote:border-[var(--hot-pink)] prose-blockquote:pl-[16px] prose-blockquote:text-[24px] prose-blockquote:text-[var(--ink-soft)] prose-code:font-mono prose-code:bg-[var(--paper-2)] prose-code:border prose-code:border-[var(--rule-soft)] prose-code:rounded-[2px] prose-code:px-[4px] prose-code:py-[2px] prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none prose-img:border-[3px] prose-img:border-[var(--ink)] prose-img:shadow-[5px_5px_0_var(--ink)] prose-img:my-[32px] prose-ul:font-serif prose-ul:text-[20px] prose-ol:font-serif prose-ol:text-[20px]"
               dangerouslySetInnerHTML={{ __html: post.html }}
             />
             
