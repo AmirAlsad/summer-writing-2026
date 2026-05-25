@@ -48,6 +48,7 @@ export default function Post() {
             <h1 className="t-h1">{post.title}</h1>
 
             <p className="t-lede">{post.description}</p>
+            <p className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)]">By: Amir Alsad</p>
           </div>
 
           {/* Body */}

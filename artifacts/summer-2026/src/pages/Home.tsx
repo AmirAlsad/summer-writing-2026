@@ -56,7 +56,7 @@ export default function Home() {
               SUMMER<br />WRITING <em className="text-[var(--hot-pink)] not-italic">'26</em>
             </h1>
             <p className="t-lede mt-[32px]">
-              Thirty pieces in thirty days. Some essays, some fiction, some half-formed. New writing every morning through June.
+              By: Amir Alsad
             </p>
           </div>
         </section>
