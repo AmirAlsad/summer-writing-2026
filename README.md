@@ -4,7 +4,7 @@ Thirty pieces in thirty days — a static blog that renders Markdown posts. New
 writing becomes visible automatically once its date arrives.
 
 The site is a Vite + React single-page app living in
-[`artifacts/summer-2026`](artifacts/summer-2026). Posts are plain Markdown files
+[`summer-2026`](summer-2026). Posts are plain Markdown files
 read at build time, so there is no server or database to run.
 
 ## Requirements
@@ -26,7 +26,7 @@ overridden via env vars if needed.
 ## Build
 
 ```bash
-pnpm build        # builds the site to artifacts/summer-2026/dist/public
+pnpm build        # builds the site to summer-2026/dist/public
 ```
 
 To reproduce the production build exactly (served under `/summer-2026/`):
@@ -38,7 +38,7 @@ pnpm --filter @workspace/summer-2026 run serve   # preview the built site
 
 ## Writing posts
 
-Add a Markdown file to `content/summer-2026/writing/` named
+Add a Markdown file to `content/writing/` named
 `YYYY-MM-DD-the-slug.md` with front matter:
 
 ```markdown
@@ -47,7 +47,7 @@ title: On giving up on a novel
 description: A short summary used in previews and meta tags.
 date: 2026-05-24
 pinned: false
-image: /assets/some-image.jpg      # optional
+image: "vice-city-1"               # optional — a registry key, not a path
 image_caption: Optional caption    # optional
 ---
 
@@ -57,8 +57,14 @@ Body in Markdown...
 - A post is published once its `date` is on or before today.
 - `pinned: true` keeps a post at the top and excludes it from day numbering.
 - Files starting with `_` (e.g. `_template.md`) are ignored.
-- If `content/summer-2026/writing/` has no real posts yet, the site falls back
-  to the samples in `content/summer-2026/examples/`.
+- If `content/writing/` has no real posts yet, the site falls back
+  to the samples in `content/examples/`.
+- `image` is **not** a file path — it is a key into the image registry in
+  [`summer-2026/src/lib/images.ts`](summer-2026/src/lib/images.ts).
+  To use a new image, drop the file in
+  `summer-2026/src/assets/`, import it in `images.ts`, and add it to
+  `IMAGE_REGISTRY` under a short key, then reference that key here. An
+  unregistered key renders no image.
 
 ## Deploy (Netlify)
 

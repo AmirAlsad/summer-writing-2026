@@ -23,11 +23,11 @@ export interface Post {
 }
 
 // Load both sources eagerly. Writing folder takes priority when it has real files.
-const writingFiles = import.meta.glob('../../../../content/summer-2026/writing/*.md', {
+const writingFiles = import.meta.glob('../../../content/writing/*.md', {
   query: '?raw', import: 'default', eager: true
 }) as Record<string, string>;
 
-const exampleFiles = import.meta.glob('../../../../content/summer-2026/examples/*.md', {
+const exampleFiles = import.meta.glob('../../../content/examples/*.md', {
   query: '?raw', import: 'default', eager: true
 }) as Record<string, string>;
 
