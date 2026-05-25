@@ -5,6 +5,9 @@ dist
 tmp
 out-tsc
 *.tsbuildinfo
+
+# Netlify build staging dir (created by the netlify.toml build command)
+netlify-publish
 .expo
 .expo-shared
 

@@ -9,9 +9,8 @@
   publish = "netlify-publish"
 
 [build.environment]
-  NODE_VERSION = "20"
-  PNPM_VERSION = "10.26.1"
-  PORT = "24781"
+  NODE_VERSION = "22"
+  PNPM_VERSION = "10.30.3"
   BASE_PATH = "/summer-2026/"
 
 # Client-side routes under /summer-2026/* should fall back to the SPA shell.
