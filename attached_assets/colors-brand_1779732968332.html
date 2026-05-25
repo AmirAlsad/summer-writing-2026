@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Colors — Brand</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--paper);}
+  .wrap{padding:24px;}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .sw{
+    aspect-ratio:1;border:3px solid var(--ink);
+    box-shadow:3px 3px 0 var(--ink);
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:10px;
+  }
+  .sw .name{font-family:var(--font-display);font-weight:900;font-size:16px;line-height:1;color:var(--ink);}
+  .sw .hex{font-family:var(--font-mono);font-size:11px;color:var(--ink);letter-spacing:0.05em;margin-top:4px;}
+  .sw.dark .name,.sw.dark .hex{color:var(--paper);}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="row">
+    <div class="sw" style="background:#FF3E80"><span class="name">HOT PINK</span><span class="hex">#FF3E80</span></div>
+    <div class="sw" style="background:#5BD6C3"><span class="name">TURQUOISE</span><span class="hex">#5BD6C3</span></div>
+    <div class="sw" style="background:#FF8B6A"><span class="name">CORAL</span><span class="hex">#FF8B6A</span></div>
+    <div class="sw" style="background:#F4B0B8"><span class="name">PEACH</span><span class="hex">#F4B0B8</span></div>
+    <div class="sw" style="background:#FFC857"><span class="name">SUN</span><span class="hex">#FFC857</span></div>
+  </div>
+</div>
+</body></html>

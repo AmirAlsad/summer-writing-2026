@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Paper background</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--paper);}
+  .wrap{padding:0;height:240px;display:flex;}
+  .a, .b{flex:1;position:relative;display:flex;align-items:center;justify-content:center;}
+  .a{
+    background:
+      radial-gradient(circle, rgba(27,31,58,0.18) 1px, transparent 1.4px) 0 0/24px 24px,
+      var(--paper);
+  }
+  .b{
+    background:
+      linear-gradient(to bottom, transparent, rgba(255,62,128,0.4)),
+      linear-gradient(to top, var(--turquoise), transparent 60%),
+      var(--peach);
+  }
+  .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:6px 10px;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="a"><span class="lbl">DOT GRID · 24PX · 18% INK</span></div>
+  <div class="b"><span class="lbl">SUNSET WASH · FOOTER ONLY</span></div>
+</div>
+</body></html>

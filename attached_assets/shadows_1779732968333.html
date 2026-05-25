@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--paper);}
+  .wrap{padding:30px 32px 40px;display:flex;gap:32px;align-items:center;}
+  .box{
+    width:96px;height:64px;background:var(--paper-2);border:3px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--ink);
+  }
+  .b1{box-shadow:3px 3px 0 var(--ink);}
+  .b2{box-shadow:5px 5px 0 var(--ink);}
+  .b3{box-shadow:8px 8px 0 var(--ink);}
+  .b4{box-shadow:12px 12px 0 var(--ink);}
+  .b5{box-shadow:5px 5px 0 var(--hot-pink);}
+  .b6{box-shadow:5px 5px 0 var(--turquoise);}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="box b1">3·3</div>
+  <div class="box b2">5·5</div>
+  <div class="box b3">8·8</div>
+  <div class="box b4">12·12</div>
+  <div class="box b5" style="background:#fff">PINK</div>
+  <div class="box b6" style="background:#fff">TURQ</div>
+</div>
+</body></html>

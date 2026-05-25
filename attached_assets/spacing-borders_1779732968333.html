@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Spacing & Borders</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html,body{margin:0;padding:0;background:var(--paper);}
+  .wrap{padding:24px 32px;display:flex;gap:32px;}
+  .col{flex:1;}
+  .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:8px;}
+  .spacing{display:flex;align-items:flex-end;gap:10px;}
+  .s{background:var(--ink);width:14px;}
+  .s span{display:block;font-family:var(--font-mono);font-size:10px;color:var(--ink);text-align:center;margin-top:6px;font-weight:700;}
+  .borders{display:flex;gap:12px;}
+  .b{width:60px;height:60px;background:var(--paper);border-color:var(--ink);border-style:solid;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;font-weight:700;}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="col">
+    <div class="lbl">SPACING SCALE · PX</div>
+    <div class="spacing">
+      <div><div class="s" style="height:4px"></div><span>4</span></div>
+      <div><div class="s" style="height:8px"></div><span>8</span></div>
+      <div><div class="s" style="height:16px"></div><span>16</span></div>
+      <div><div class="s" style="height:24px"></div><span>24</span></div>
+      <div><div class="s" style="height:32px"></div><span>32</span></div>
+      <div><div class="s" style="height:48px"></div><span>48</span></div>
+      <div><div class="s" style="height:64px"></div><span>64</span></div>
+      <div><div class="s" style="height:96px"></div><span>96</span></div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="lbl">BORDER WEIGHTS</div>
+    <div class="borders">
+      <div class="b" style="border-width:1px">1</div>
+      <div class="b" style="border-width:2px">2</div>
+      <div class="b" style="border-width:3px">3</div>
+      <div class="b" style="border-width:4px">4</div>
+      <div class="b" style="border-width:6px">6</div>
+    </div>
+  </div>
+</div>
+</body></html>
