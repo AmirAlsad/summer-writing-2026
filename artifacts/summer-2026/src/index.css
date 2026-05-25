@@ -263,6 +263,12 @@ a:hover {
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
+/* Block-level / button-style links — never underline */
+a.link-block,
+a.link-block:hover {
+  text-decoration: none;
+  color: inherit;
+}
 
 /* =========================================================
    BASE

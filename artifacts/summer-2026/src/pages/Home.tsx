@@ -90,7 +90,7 @@ export default function Home() {
                   <Link
                     key={post.slug}
                     href={`/${post.slug}`}
-                    className="flex gap-[24px] items-start p-[24px_28px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] bg-[var(--paper)] group cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-150 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
+                    className="link-block flex gap-[24px] items-start p-[24px_28px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] bg-[var(--paper)] group cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-150 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
                   >
                     {/* Day / date column */}
                     <div className="shrink-0 w-[52px]">

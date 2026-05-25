@@ -32,7 +32,7 @@ export default function Post() {
           {/* Back link */}
           <Link
             href="/"
-            className="inline-block font-mono text-[11px] font-bold tracking-[0.1em] uppercase text-[var(--ink-mute)] mb-[64px] focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
+            className="link-block inline-block font-mono text-[11px] font-bold tracking-[0.1em] uppercase text-[var(--ink-mute)] mb-[64px] focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
           >
             &larr; All pieces
           </Link>
@@ -71,7 +71,7 @@ export default function Post() {
             {prev ? (
               <Link
                 href={`/${prev.slug}`}
-                className="flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] text-[var(--ink)] hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
+                className="link-block flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
               >
                 <span className="font-mono text-[10px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)]">
                   &larr; {prev.pinned ? 'Intro' : `Day ${prev.dayNumber}`}
@@ -85,7 +85,7 @@ export default function Post() {
             {next ? (
               <Link
                 href={`/${next.slug}`}
-                className="flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] text-[var(--ink)] text-right hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
+                className="link-block flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] text-right hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
               >
                 <span className="font-mono text-[10px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)]">
                   {next.pinned ? 'Intro' : `Day ${next.dayNumber}`} &rarr;
