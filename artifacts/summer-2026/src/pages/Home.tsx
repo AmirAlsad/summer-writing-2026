@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { getPublishedPosts } from "@/lib/content";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
@@ -12,6 +12,35 @@ export default function Home() {
   });
 
   const posts = useMemo(() => getPublishedPosts(), []);
+  const [query, setQuery] = useState("");
+  const [asc, setAsc] = useState(false);
+
+  const visiblePosts = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    // Separate pinned from the rest so it stays anchored at top
+    const pinned = posts.filter(p => p.pinned);
+    let unpinned = posts.filter(p => !p.pinned);
+
+    if (q) {
+      const matchesPinned = pinned.filter(p =>
+        p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+      );
+      unpinned = unpinned.filter(p =>
+        p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+      );
+      // When searching, sort unpinned by date then apply asc/desc
+      unpinned = unpinned.sort((a, b) => a.date.localeCompare(b.date));
+      if (!asc) unpinned = unpinned.reverse();
+      return [...matchesPinned, ...unpinned];
+    }
+
+    // No search — respect asc/desc for unpinned, pinned stays on top
+    const sorted = asc
+      ? [...unpinned].sort((a, b) => a.date.localeCompare(b.date))
+      : [...unpinned].sort((a, b) => b.date.localeCompare(a.date));
+    return [...pinned, ...sorted];
+  }, [posts, query, asc]);
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-[var(--paper)] text-[var(--ink)]">
@@ -32,11 +61,29 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Post feed */}
+        {/* Feed */}
         <section className="py-[48px]">
           <div className="max-w-[680px] mx-auto px-[20px] md:px-[40px]">
+
+            {/* Search + sort controls */}
+            <div className="flex items-center gap-[12px] mb-[32px]">
+              <input
+                type="search"
+                placeholder="Search"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                className="flex-1 bg-transparent border-b-[2px] border-[var(--ink)] py-[8px] font-mono text-[13px] tracking-[0.04em] text-[var(--ink)] placeholder:text-[var(--ink-mute)] outline-none focus:border-[var(--hot-pink)] transition-colors duration-150"
+              />
+              <button
+                onClick={() => setAsc(v => !v)}
+                className="shrink-0 font-mono text-[11px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)] border-b-[2px] border-transparent hover:border-[var(--ink)] py-[8px] transition-colors duration-150 cursor-pointer focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2 whitespace-nowrap"
+              >
+                {asc ? "Oldest first" : "Newest first"}
+              </button>
+            </div>
+
             <div className="flex flex-col border-b-[1.5px] border-[var(--ink)]">
-              {posts.map((post) => {
+              {visiblePosts.map((post) => {
                 const [, m, d] = post.date.split('-');
                 return (
                   <Link
@@ -44,19 +91,24 @@ export default function Home() {
                     href={`/${post.slug}`}
                     className="flex gap-[24px] items-start py-[28px] border-t-[1.5px] border-[var(--ink)] group cursor-pointer focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
                   >
-                    {/* Day / label */}
-                    <div className="shrink-0 w-[52px] font-display font-black text-[36px] leading-[0.9] tracking-[-1.5px] text-[var(--ink-mute)]">
+                    {/* Day / date column */}
+                    <div className="shrink-0 w-[52px]">
                       {post.pinned ? (
-                        <span className="inline-block font-mono text-[11px] font-bold tracking-[0.08em] border-[2px] border-[var(--ink)] bg-[var(--hot-pink)] text-[var(--paper)] px-[6px] py-[3px] leading-none mt-[6px]">
-                          INTRO
-                        </span>
+                        <div className="flex flex-col gap-[6px]">
+                          <span className="inline-block font-mono text-[10px] font-bold tracking-[0.08em] border-[2px] border-[var(--ink)] bg-[var(--hot-pink)] text-[var(--paper)] px-[5px] py-[2px] leading-none">
+                            INTRO
+                          </span>
+                          <time dateTime={post.date} className="font-mono text-[10px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase">
+                            {m}.{d}
+                          </time>
+                        </div>
                       ) : (
-                        <>
+                        <div className="font-display font-black text-[36px] leading-[0.9] tracking-[-1.5px] text-[var(--ink-mute)]">
                           {String(post.dayNumber).padStart(2, '0')}
                           <time dateTime={post.date} className="block font-mono text-[10px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase mt-[4px]">
                             {m}.{d}
                           </time>
-                        </>
+                        </div>
                       )}
                     </div>
 
@@ -76,9 +128,9 @@ export default function Home() {
                 );
               })}
 
-              {posts.length === 0 && (
+              {visiblePosts.length === 0 && (
                 <div className="py-[64px] border-t-[1.5px] border-[var(--ink)] text-center font-serif italic text-[var(--ink-soft)] text-[18px]">
-                  Not yet.
+                  {query ? "Nothing matches." : "Not yet."}
                 </div>
               )}
             </div>

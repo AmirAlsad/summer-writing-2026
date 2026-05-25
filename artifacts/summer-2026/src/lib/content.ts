@@ -13,7 +13,6 @@ export interface Post {
   title: string;
   description: string;
   date: string; // YYYY-MM-DD
-  topic: string;
   pinned: boolean;
   content: string;
   html: string;
@@ -21,76 +20,97 @@ export interface Post {
   dayNumber?: number;
 }
 
-const rawFiles = import.meta.glob('../../../../content/summer-2026/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+// Load both sources eagerly. Writing folder takes priority when it has real files.
+const writingFiles = import.meta.glob('../../../../content/summer-2026/writing/*.md', {
+  query: '?raw', import: 'default', eager: true
+}) as Record<string, string>;
+
+const exampleFiles = import.meta.glob('../../../../content/summer-2026/examples/*.md', {
+  query: '?raw', import: 'default', eager: true
+}) as Record<string, string>;
+
+function isRealPost(path: string): boolean {
+  const filename = path.split('/').pop() || '';
+  return !filename.startsWith('_') && filename.endsWith('.md');
+}
+
+// Use writing/ if it has at least one real (non-template) file, else fall back to examples/
+const activeFiles: Record<string, string> = (() => {
+  const realWriting = Object.keys(writingFiles).filter(isRealPost);
+  return realWriting.length > 0 ? writingFiles : exampleFiles;
+})();
+
+function parsePost(path: string, rawContent: string): Post | null {
+  if (!isRealPost(path)) return null;
+
+  const parsed = fm<{
+    title?: string;
+    description?: string;
+    date?: string | Date;
+    pinned?: boolean;
+  }>(rawContent);
+  const data = parsed.attributes;
+  const content = parsed.body;
+
+  const filename = path.split('/').pop() || '';
+  const slugMatch = filename.match(/^\d{4}-\d{2}-\d{2}-(.*)\.md$/);
+  const slug = slugMatch ? slugMatch[1] : filename.replace('.md', '');
+
+  const html = remark()
+    .use(remarkGfm)
+    .use(remarkHtml, { sanitize: false })
+    .processSync(content)
+    .toString();
+
+  let dateStr = '';
+  if (data.date instanceof Date) {
+    dateStr = data.date.toISOString().split('T')[0];
+  } else {
+    dateStr = String(data.date ?? '');
+  }
+
+  return {
+    slug,
+    title: data.title || '',
+    description: data.description || '',
+    date: dateStr,
+    pinned: data.pinned === true,
+    content,
+    html,
+    readingTimeMinutes: computeReadingMinutes(content),
+  };
+}
 
 export function getPublishedPosts(): Post[] {
   const posts: Post[] = [];
 
-  for (const path in rawFiles) {
-    const rawContent = rawFiles[path];
-    const parsed = fm<{
-      title?: string;
-      description?: string;
-      date?: string | Date;
-      topic?: string;
-      pinned?: boolean;
-    }>(rawContent);
-    const data = parsed.attributes;
-    const content = parsed.body;
-    const filename = path.split('/').pop() || '';
-    const slugMatch = filename.match(/^\d{4}-\d{2}-\d{2}-(.*)\.md$/);
-    const slug = slugMatch ? slugMatch[1] : filename.replace('.md', '');
-
-    const html = remark()
-      .use(remarkGfm)
-      .use(remarkHtml)
-      .processSync(content)
-      .toString();
-
-    const rtMinutes = computeReadingMinutes(content);
-    let dateStr = "";
-    if (data.date instanceof Date) {
-      dateStr = data.date.toISOString().split('T')[0];
-    } else {
-      dateStr = String(data.date);
-    }
-
-    posts.push({
-      slug,
-      title: data.title || '',
-      description: data.description || '',
-      date: dateStr,
-      topic: data.topic || '',
-      pinned: data.pinned === true,
-      content,
-      html,
-      readingTimeMinutes: rtMinutes
-    });
+  for (const path in activeFiles) {
+    const post = parsePost(path, activeFiles[path]);
+    if (post) posts.push(post);
   }
 
   // Filter by date <= today
   const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const todayStr = `${year}-${month}-${day}`;
+  const todayStr = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+  ].join('-');
 
-  const publishedPosts = posts.filter(p => p.date <= todayStr);
-  
-  // Sort oldest first to compute day numbers
-  const unpinnedPosts = publishedPosts.filter(p => !p.pinned).sort((a, b) => a.date.localeCompare(b.date));
-  unpinnedPosts.forEach((p, index) => {
-    p.dayNumber = index + 1;
-  });
+  const published = posts.filter(p => p.date <= todayStr);
 
-  // Re-sort published posts newest first, with pinned at top
-  publishedPosts.sort((a, b) => {
+  // Assign day numbers to unpinned posts in chronological order
+  const unpinned = published.filter(p => !p.pinned).sort((a, b) => a.date.localeCompare(b.date));
+  unpinned.forEach((p, i) => { p.dayNumber = i + 1; });
+
+  // Default sort: pinned first, then newest first
+  published.sort((a, b) => {
     if (a.pinned && !b.pinned) return -1;
     if (!a.pinned && b.pinned) return 1;
     return b.date.localeCompare(a.date);
   });
 
-  return publishedPosts;
+  return published;
 }
 
 export function getPostBySlug(slug: string) {
@@ -98,12 +118,12 @@ export function getPostBySlug(slug: string) {
 }
 
 export function getAdjacentPosts(slug: string) {
-  const posts = getPublishedPosts().filter(p => !p.pinned); // chronological across non-pinned
+  // Adjacency is over all posts (including pinned) in chronological order
+  const posts = getPublishedPosts().slice().sort((a, b) => a.date.localeCompare(b.date));
   const index = posts.findIndex(p => p.slug === slug);
   if (index === -1) return { prev: null, next: null };
-  // posts is newest first
   return {
-    next: index > 0 ? posts[index - 1] : null,
-    prev: index < posts.length - 1 ? posts[index + 1] : null,
+    prev: index > 0 ? posts[index - 1] : null,
+    next: index < posts.length - 1 ? posts[index + 1] : null,
   };
 }
