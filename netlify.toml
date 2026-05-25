@@ -1,0 +1,19 @@
+[build]
+  command = "pnpm --filter @workspace/summer-2026 run build"
+  publish = "artifacts/summer-2026/dist/public"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_VERSION = "10.26.1"
+  PORT = "24781"
+  BASE_PATH = "/summer-2026/"
+
+[[redirects]]
+  from = "/summer-2026/*"
+  to = "/summer-2026/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/summer-2026/index.html"
+  status = 200

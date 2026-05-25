@@ -1,0 +1,36 @@
+# Daily rebuild for Summer Writing '26
+#
+# This workflow triggers a fresh Netlify build every morning so that newly
+# date-eligible posts (date <= today) go live without any manual step.
+#
+# Setup:
+#   1. In Netlify: Site settings -> Build & deploy -> Build hooks -> Add
+#      build hook. Copy the generated URL.
+#   2. In GitHub: Repo settings -> Secrets and variables -> Actions ->
+#      New repository secret. Name it NETLIFY_DEPLOY_HOOK and paste the URL.
+#
+# Manual rebuild:
+#   GitHub -> Actions -> "Daily rebuild" -> Run workflow.
+#
+# Schedule: 06:00 UTC daily (~02:00 US Eastern / ~01:00 EST).
+
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  trigger-netlify-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Netlify deploy hook
+        env:
+          NETLIFY_DEPLOY_HOOK: ${{ secrets.NETLIFY_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$NETLIFY_DEPLOY_HOOK" ]; then
+            echo "::error::NETLIFY_DEPLOY_HOOK secret is not configured."
+            exit 1
+          fi
+          curl --fail-with-body -X POST -d '{}' "$NETLIFY_DEPLOY_HOOK"
