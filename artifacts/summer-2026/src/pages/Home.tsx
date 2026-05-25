@@ -115,7 +115,7 @@ export default function Home() {
 
                     {/* Text */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-display font-extrabold text-[22px] leading-[1.05] tracking-[-0.3px] text-[var(--ink)] m-0 group-hover:underline group-hover:underline-offset-[3px] group-hover:decoration-[2px] group-hover:decoration-[var(--hot-pink)]">
+                      <h3 className="font-display font-extrabold text-[22px] leading-[1.05] tracking-[-0.3px] text-[var(--ink)] m-0">
                         {post.title}
                       </h3>
                       <p className="font-serif italic text-[15px] leading-[1.5] text-[var(--ink-soft)] mt-[4px] m-0">
