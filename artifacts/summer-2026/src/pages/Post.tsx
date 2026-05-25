@@ -34,7 +34,7 @@ export default function Post() {
           <div className="sticky top-[84px] z-40 hidden xl:block absolute left-0 -ml-[20px] w-[0]">
              {post.dayNumber && (
               <div className="font-mono text-[11px] font-bold tracking-[0.08em] uppercase border-[2.5px] border-[var(--ink)] shadow-[3px_3px_0_var(--ink)] bg-[var(--sun)] px-[14px] py-[8px] rounded-full inline-flex whitespace-nowrap animate-in fade-in duration-1000">
-                DAY {String(post.dayNumber).padStart(2, '0')} &middot; {formattedDate} &middot; {post.readingTimeMinutes} MIN
+                DAY {String(post.dayNumber).padStart(2, '0')} &middot; <time dateTime={post.date}>{formattedDate}</time> &middot; {post.readingTimeMinutes} MIN
               </div>
              )}
           </div>
@@ -42,7 +42,7 @@ export default function Post() {
           <div className="max-w-[680px] mx-auto">
             {/* Eyebrow */}
             <div className="font-mono text-[13px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)] mb-[16px]">
-              {post.dayNumber && `DAY ${post.dayNumber} · `}{formattedDate} · {post.topic} · {post.readingTimeMinutes} MIN READ
+              {post.dayNumber && `DAY ${post.dayNumber} · `}<time dateTime={post.date}>{formattedDate}</time> · {post.topic} · {post.readingTimeMinutes} MIN READ
             </div>
             
             {/* Title & Desc */}

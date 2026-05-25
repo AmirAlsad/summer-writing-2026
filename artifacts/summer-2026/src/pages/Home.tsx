@@ -50,7 +50,7 @@ export default function Home() {
         >
           <div className="max-w-[1200px] mx-auto">
             <h1 className="poster -ml-1">
-              SUMMER<br/>WRITING<em className="text-[var(--hot-pink)] not-italic">.</em>
+              SUMMER<br/>WRITING <em className="text-[var(--hot-pink)] not-italic">'26</em>
             </h1>
             <p className="t-lede max-w-[680px] mt-[32px]">
               Thirty pieces in thirty days. Some essays, some fiction, some half-formed. New writing every morning through June.
@@ -133,9 +133,9 @@ export default function Home() {
                     ) : (
                       <>
                         {String(post.dayNumber).padStart(2, '0')}
-                        <small className="block font-mono text-[11px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase mt-[4px]">
+                        <time dateTime={post.date} className="block font-mono text-[11px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase mt-[4px]">
                           {m}.{d}
-                        </small>
+                        </time>
                       </>
                     )}
                   </div>
