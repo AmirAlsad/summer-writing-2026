@@ -41,7 +41,6 @@ export default function Post() {
           <div className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)] mb-[20px]">
             {post.dayNumber && `Day ${post.dayNumber} · `}
             <time dateTime={post.date}>{formattedDate}</time>
-            {post.topic && ` · ${post.topic}`}
             {` · ${post.readingTimeMinutes} min read`}
           </div>
 
