@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { getPublishedPosts } from "@/lib/content";
+import { resolveImage } from "@/lib/images";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
 import { Footer } from "@/components/Layout";
 
@@ -90,8 +91,19 @@ export default function Home() {
                   <Link
                     key={post.slug}
                     href={`/${post.slug}`}
-                    className="link-block flex gap-[24px] items-start p-[24px_28px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] bg-[var(--paper)] group cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-150 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
+                    className="link-block flex flex-col border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] bg-[var(--paper)] group cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-150 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
                   >
+                    {/* Cover image */}
+                    {resolveImage(post.image) && (
+                      <div className="w-full overflow-hidden border-b-[3px] border-[var(--ink)]">
+                        <img
+                          src={resolveImage(post.image)}
+                          alt=""
+                          className="w-full h-[180px] object-cover object-center block"
+                        />
+                      </div>
+                    )}
+                    <div className="flex gap-[24px] items-start p-[24px_28px]">
                     {/* Day / date column */}
                     <div className="shrink-0 w-[52px]">
                       {post.pinned ? (
@@ -124,6 +136,7 @@ export default function Home() {
                       <div className="font-mono text-[10px] font-medium tracking-[0.08em] uppercase text-[var(--ink-mute)] mt-[8px]">
                         {post.readingTimeMinutes} min read
                       </div>
+                    </div>
                     </div>
                   </Link>
                 );

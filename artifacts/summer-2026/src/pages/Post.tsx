@@ -1,5 +1,6 @@
 import { useRoute, Link } from "wouter";
 import { getPostBySlug, getAdjacentPosts } from "@/lib/content";
+import { resolveImage } from "@/lib/images";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
 import { Footer } from "@/components/Layout";
 import NotFound from "@/pages/not-found";
@@ -50,6 +51,17 @@ export default function Post() {
             <p className="t-lede">{post.description}</p>
             <p className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)]">By: Amir Alsad</p>
           </div>
+
+          {/* Cover image */}
+          {resolveImage(post.image) && (
+            <div className="mb-[56px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] overflow-hidden">
+              <img
+                src={resolveImage(post.image)}
+                alt=""
+                className="w-full h-[360px] object-cover object-center block"
+              />
+            </div>
+          )}
 
           {/* Body */}
           <article

@@ -3,7 +3,7 @@ title: "What this is and why"
 description: "Thirty pieces in thirty days. Some essays, some fiction, some half-formed. New writing every morning through June."
 date: 2026-05-15
 pinned: true
-topic: essays
+image: "empty-street"
 ---
 
 I have always wanted to write every day, and I have always found a reason not to. The reasons are reliable. They show up like weather. So this summer I am going to do it anyway — thirty mornings in a row, one piece each, posted before I get to second-guess it.
