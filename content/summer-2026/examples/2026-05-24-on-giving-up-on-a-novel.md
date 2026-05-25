@@ -4,6 +4,7 @@ description: "The one I had been writing for two years, and what was left when I
 date: 2026-05-24
 pinned: false
 image: "vice-city-2"
+image_caption: "A 1973 Chevrolet Chevelle on Route 41, Everglades"
 ---
 
 I stopped working on the novel in March. I did not decide to stop — I just noticed, at some point in April, that I had not opened the file in six weeks, and that I did not particularly want to. That is usually how it ends with me. Not a decision. A drift.

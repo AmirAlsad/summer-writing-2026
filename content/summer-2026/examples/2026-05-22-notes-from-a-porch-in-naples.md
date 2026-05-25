@@ -4,6 +4,7 @@ description: "A short field-note about humidity, lemons, and old men playing sco
 date: 2026-05-22
 pinned: false
 image: "vice-city-3"
+image_caption: "A charter yacht somewhere between Naples and Capri"
 ---
 
 The porch faces the water and gets direct sun until about four in the afternoon, at which point the umbrella pine on the right side of the garden takes over and the temperature drops six degrees in under a minute. I have timed this. It is one of the more reliable events in my life right now.

@@ -15,6 +15,7 @@ export interface Post {
   date: string; // YYYY-MM-DD
   pinned: boolean;
   image?: string;
+  imageCaption?: string;
   content: string;
   html: string;
   readingTimeMinutes: number;
@@ -50,6 +51,7 @@ function parsePost(path: string, rawContent: string): Post | null {
     date?: string | Date;
     pinned?: boolean;
     image?: string;
+    image_caption?: string;
   }>(rawContent);
   const data = parsed.attributes;
   const content = parsed.body;
@@ -78,6 +80,7 @@ function parsePost(path: string, rawContent: string): Post | null {
     date: dateStr,
     pinned: data.pinned === true,
     image: data.image,
+    imageCaption: data.image_caption,
     content,
     html,
     readingTimeMinutes: computeReadingMinutes(content),

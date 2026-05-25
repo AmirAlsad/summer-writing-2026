@@ -4,6 +4,7 @@ description: "Why I can't stop rereading the same forty pages of Stoner."
 date: 2026-05-18
 pinned: false
 image: "vice-city-1"
+image_caption: "A seaplane leaving Biscayne Bay at dusk"
 ---
 
 There is a stretch in the middle of *Stoner* — maybe forty pages — that I have read more times than any other piece of prose in my life. I do not mean I love the book. I do love it, but that is not why. I mean that I keep returning to those pages the way you keep returning to a particular argument with a person who is no longer in your life, hoping that this time you will phrase it well enough to win.

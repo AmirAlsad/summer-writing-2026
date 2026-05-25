@@ -54,13 +54,20 @@ export default function Post() {
 
           {/* Cover image */}
           {resolveImage(post.image) && (
-            <div className="mb-[56px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] overflow-hidden">
-              <img
-                src={resolveImage(post.image)}
-                alt=""
-                className="w-full h-[360px] object-cover object-center block"
-              />
-            </div>
+            <figure className="mb-[56px]">
+              <div className="border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] overflow-hidden">
+                <img
+                  src={resolveImage(post.image)}
+                  alt={post.imageCaption || ""}
+                  className="w-full h-[360px] object-cover object-center block"
+                />
+              </div>
+              {post.imageCaption && (
+                <figcaption className="mt-[10px] font-mono text-[11px] tracking-[0.06em] text-[var(--ink-mute)] uppercase">
+                  {post.imageCaption}
+                </figcaption>
+              )}
+            </figure>
           )}
 
           {/* Body */}
