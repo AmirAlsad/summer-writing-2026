@@ -83,14 +83,14 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="flex flex-col border-b-[1.5px] border-[var(--ink)]">
+            <div className="flex flex-col gap-[12px]">
               {visiblePosts.map((post) => {
                 const [, m, d] = post.date.split('-');
                 return (
                   <Link
                     key={post.slug}
                     href={`/${post.slug}`}
-                    className="flex gap-[24px] items-start py-[28px] border-t-[1.5px] border-[var(--ink)] group cursor-pointer focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
+                    className="flex gap-[24px] items-start p-[24px_28px] border-[3px] border-[var(--ink)] shadow-[5px_5px_0_var(--ink)] bg-[var(--paper)] group cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-150 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-[-2px]"
                   >
                     {/* Day / date column */}
                     <div className="shrink-0 w-[52px]">
@@ -130,7 +130,7 @@ export default function Home() {
               })}
 
               {visiblePosts.length === 0 && (
-                <div className="py-[64px] border-t-[1.5px] border-[var(--ink)] text-center font-serif italic text-[var(--ink-soft)] text-[18px]">
+                <div className="py-[64px] text-center font-serif italic text-[var(--ink-soft)] text-[18px]">
                   {query ? "Nothing matches." : "Not yet."}
                 </div>
               )}
