@@ -1,6 +1,12 @@
+# Vite builds to artifacts/summer-2026/dist/public with base=/summer-2026/.
+# Netlify publishes from the root of `publish`, so we stage the built files
+# under a `summer-2026/` subfolder. That way the served URL
+# `/summer-2026/index.html` matches the asset paths Vite emits
+# (`/summer-2026/assets/...`).
+
 [build]
-  command = "pnpm --filter @workspace/summer-2026 run build"
-  publish = "artifacts/summer-2026/dist/public"
+  command = "pnpm --filter @workspace/summer-2026 run build && rm -rf netlify-publish && mkdir -p netlify-publish/summer-2026 && cp -R artifacts/summer-2026/dist/public/. netlify-publish/summer-2026/"
+  publish = "netlify-publish"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -8,12 +14,14 @@
   PORT = "24781"
   BASE_PATH = "/summer-2026/"
 
+# Client-side routes under /summer-2026/* should fall back to the SPA shell.
 [[redirects]]
   from = "/summer-2026/*"
   to = "/summer-2026/index.html"
   status = 200
 
+# The bare subdomain has no landing page yet; send visitors to the site.
 [[redirects]]
-  from = "/*"
-  to = "/summer-2026/index.html"
-  status = 200
+  from = "/"
+  to = "/summer-2026/"
+  status = 302
