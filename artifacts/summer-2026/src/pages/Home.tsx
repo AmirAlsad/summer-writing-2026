@@ -76,9 +76,10 @@ export default function Home() {
               />
               <button
                 onClick={() => setAsc(v => !v)}
-                className="shrink-0 font-mono text-[11px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)] border-b-[2px] border-transparent hover:border-[var(--ink)] py-[8px] transition-colors duration-150 cursor-pointer focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2 whitespace-nowrap"
+                className="shrink-0 flex items-center gap-[6px] font-mono text-[11px] font-bold tracking-[0.08em] uppercase border-[2px] border-[var(--ink)] px-[12px] py-[7px] bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors duration-150 cursor-pointer focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2 whitespace-nowrap"
               >
-                {asc ? "Oldest first" : "Newest first"}
+                <span>{asc ? "↑" : "↓"}</span>
+                <span>{asc ? "Oldest" : "Newest"}</span>
               </button>
             </div>
 
