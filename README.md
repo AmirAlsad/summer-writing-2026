@@ -47,7 +47,7 @@ title: On giving up on a novel
 description: A short summary used in previews and meta tags.
 date: 2026-05-24
 pinned: false
-image: "vice-city-1"               # optional — a registry key, not a path
+image: "vice-city-1"               # optional — a file in content/images/
 image_caption: Optional caption    # optional
 ---
 
@@ -59,12 +59,11 @@ Body in Markdown...
 - Files starting with `_` (e.g. `_template.md`) are ignored.
 - If `content/writing/` has no real posts yet, the site falls back
   to the samples in `content/examples/`.
-- `image` is **not** a file path — it is a key into the image registry in
-  [`summer-2026/src/lib/images.ts`](summer-2026/src/lib/images.ts).
-  To use a new image, drop the file in
-  `summer-2026/src/assets/`, import it in `images.ts`, and add it to
-  `IMAGE_REGISTRY` under a short key, then reference that key here. An
-  unregistered key renders no image.
+- `image` is a filename in [`content/images/`](content/images), with or
+  without its extension (`"vice-city-1"` or `"vice-city-1.png"`). Drop the file
+  in that folder and reference it here — there is no registration step;
+  [`summer-2026/src/lib/images.ts`](summer-2026/src/lib/images.ts) globs the
+  folder at build time. A name with no matching file renders no image.
 
 ## Deploy (Netlify)
 

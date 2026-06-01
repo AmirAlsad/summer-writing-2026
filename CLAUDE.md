@@ -32,7 +32,6 @@ There is **no test framework** in this repo.
 - `summer-2026` (`@workspace/summer-2026`) is the entire app — a Vite + React 19 SPA (wouter router, Tailwind v4, shadcn/ui in `src/components/ui/`). This is where ~all real work happens.
 - `content/` holds the Markdown posts in `writing/` and `examples/` (see below).
 - Post images live in `content/images/` (alongside `writing/` and `examples/`) and are auto-discovered by `src/lib/images.ts` via `import.meta.glob` — no manual registration.
-- `implementation-plan.md` at the repo root is the original build plan, kept for reference.
 
 ## Content pipeline (the core of the app)
 
