@@ -31,7 +31,7 @@ There is **no test framework** in this repo.
 - pnpm workspace with a single member package, `summer-2026`.
 - `summer-2026` (`@workspace/summer-2026`) is the entire app — a Vite + React 19 SPA (wouter router, Tailwind v4, shadcn/ui in `src/components/ui/`). This is where ~all real work happens.
 - `content/` holds the Markdown posts in `writing/` and `examples/` (see below).
-- Post images live in `summer-2026/src/assets/` and are imported through the registry; `@` aliases `src` (so `@/assets/foo.png`).
+- Post images live in `content/images/` (alongside `writing/` and `examples/`) and are auto-discovered by `src/lib/images.ts` via `import.meta.glob` — no manual registration.
 - `implementation-plan.md` at the repo root is the original build plan, kept for reference.
 
 ## Content pipeline (the core of the app)
@@ -49,7 +49,7 @@ Understanding `summer-2026/src/lib/content.ts` explains most of the app:
 
 Add `content/writing/YYYY-MM-DD-the-slug.md` with front matter (`title`, `description`, `date`, `pinned`, optional `image`, `image_caption`).
 
-**Image gotcha:** `image:` is **not a path** — it is a *registry key*. To use an image, drop the file in `src/assets/`, statically import it in `src/lib/images.ts`, add it to `IMAGE_REGISTRY` under a short key, then reference that key in front matter (e.g. `image: "vice-city-3"`). An unregistered key renders no image.
+**Images:** drop the file in `content/images/`, then reference it in front matter by filename — with or without extension (e.g. `image: "vice-city-3.png"` or `image: "vice-city-3"`). No registration step: `src/lib/images.ts` globs the folder at build time and keys each image by both forms. A name with no matching file renders no image.
 
 ## BASE_PATH (important and easy to break)
 
