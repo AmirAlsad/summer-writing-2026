@@ -1,7 +1,7 @@
 # Summer Writing '26
 
-Thirty pieces in thirty days — a static blog that renders Markdown posts. New
-writing becomes visible automatically once its date arrives.
+A piece for every day of the summer — a static blog that renders Markdown
+posts. New writing becomes visible automatically once its date arrives.
 
 The site is a Vite + React single-page app living in
 [`summer-2026`](summer-2026). Posts are plain Markdown files

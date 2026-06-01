@@ -7,8 +7,8 @@ import { Footer } from "@/components/Layout";
 
 export default function Home() {
   useDocumentMeta({
-    title: "Summer Writing '26 — Thirty pieces in thirty days",
-    description: "Thirty pieces in thirty days. Some essays, some fiction, some half-formed. New writing every morning through June.",
+    title: "Summer Writing '26 — A piece for every day of the summer",
+    description: "A piece for every day of the summer. New writing every morning.",
     type: "website"
   });
 
