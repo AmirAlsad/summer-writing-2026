@@ -1,37 +1,31 @@
 ---
 title: "Revolutionary Memory in Miami"
-description: "An essay and a talk I made on it — and a few thoughts before you dig in."
+description: "How Miami embraces the American Revolution without the Founders"
 date: 2026-06-03
 pinned: false
-image: ""
-image_caption: ""
-reading_time: 45     # optional — overrides the auto estimate (set to the essay's real length)
+image: "freedom-plane"
+image_caption: "The Freedom Plane 🇺🇸🛩️😎"
+reading_time: 43
 ---
 
-> Scaffold — replace this prose with your real introduction. The two embeds and
-> the inline-image example below show the new capabilities working end to end.
+This past semester, I took a class called "How to Stage a Revolution." Every semester, a different revolution is studied in-depth as a case study. I happened to be fortunate enough to take the course on a semester that focused on the American Revolution, my favorite. Had you asked me before I took this course why it was my favorite, I wouldn't have any answer besides my affinity for America and American history as an American. It still is my favorite revolution, and if you were to ask me why it's my favorite today, I would say because it's the only one I *might* be able to speak to (understanding the complexity of such events). We tend to like what we're "good" at, but that's a whole other point.
 
-A while back I wrote an essay on revolutionary memory, and later turned it into a
-talk. This piece is where the two finally live in one place. Before you dig into
-either, let me set the scene with a few thoughts on why the topic stuck with me.
+Of course, the selection of the American Revolution this time around wasn't random. 2026 is the semiquincentennial (I know, it's a mouthful) or 250th "birthday" of the United States of America 1776 is when Paine's *Common Sense* pamphlet was published, when the military battles began, and when the Declaration of Independence was adopted.
 
-I want to say a little about the argument first — what I was reaching for, and
-where I think it still falls short — so the essay reads as a conversation rather
-than a verdict. Here it is in full; click the left and right edges of a page to
-flip through it.
+Since there are no rules to this writing challenge, and since I've wanted to share my final project for this course (which I'll explain in just a second), I figured I'd kill two birds with one stone. Get a piece in and make it about a previous work.
 
-:::pdf revolutionary-memory-essay
+Our final projects for this course revolve around the American semiquincentennial celebrations in our hometowns. With Miami being a city of immigrants, I decided to focus on the immigrant populations in Miami and how they remember the American revolution. Here's the paper:
 
-After the essay I gave a talk on the same material. The slides are looser and
-more visual, and they make a couple of points the essay only gestures at. They
-follow below.
+:::pdf miami-revolutionary-memory-paper
 
-:::pdf revolutionary-memory-slides
 
-And for any future piece that needs a figure inline, images now drop straight
-into the writing — like this:
+And here's the presentation:
 
-![A placeholder figure rendered inline.](vice-city-1.png)
+:::pdf miami-revolutionary-memory-slides
 
-That's the whole setup. Replace the scaffolding above with your real words
-whenever you're ready.
+
+I think the most interesting part about all this is how, when you observe the changing demographics in the U.S. alongside the continued abstraction of the founding, you're inclined to raise the question: "What's keeping the U.S. together?"
+
+I might talk about that in a later piece... If you read the paper, which I don't quite expect anyone to, hope you enjoyed it. I was going to write "and I would love to hear your thoughts", but in all reality, I wouldn't. Only if the thoughts were genuinely interesting. So, if they are, reach out to the@amiralsad.blog.
+
+Until next time, ✌️.

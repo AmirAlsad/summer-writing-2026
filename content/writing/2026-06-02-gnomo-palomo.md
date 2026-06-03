@@ -3,8 +3,8 @@ title: "The Genius behind Gnomo Palomo"
 description: "Why this imaginary gnome figure is the most brilliant piece of art that I've ever seen."
 date: 2026-06-02
 pinned: false
-image: ""
-image_caption: ""
+image: "gnomo-palomo"
+image_caption: "Gnomo Palomo's main profile picture."
 ---
 
 I'm not sure how I found Gnomo Palomo. I must've been scrolling on Instagram one day when that magical little gnome showed up on my feed. What I can recall is that it was *love at first site.* It was so significant that I shared it with my close friends and co-founding team, which is not a common occurrence for matters that pique my curiosity (meaning I filter heaviliy before sharing matters that interest me). Looking at past messages, the earliest occurrence of this idea was around late October of 2025, so that means I've kept up with Gnomo Palomo and have been thinking about him (may be the wrong pronouns, but I'm going to roll with it) for at least 7 months... Enough glaze. Since I now have the delightful opportunity to write about whatever I want, I figured I'd write a piece on **Gnomo Palomo.**

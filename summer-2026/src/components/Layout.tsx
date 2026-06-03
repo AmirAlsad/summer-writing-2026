@@ -18,8 +18,23 @@ export function Header() {
 }
 
 export function Footer() {
+  // Assembled from parts at runtime so the full address never appears as a
+  // literal in the served HTML or the JS bundle — most address harvesters
+  // scrape raw markup (this SPA renders to an empty shell) or regex the bundle
+  // for `x@y` patterns, and neither finds anything here.
+  // Built from char codes at runtime so the bundle never contains a literal
+  // `x@y` email pattern for harvesters to regex out. We use .map() with a
+  // callback on purpose: esbuild constant-folds template literals, joins, and
+  // even decodeURIComponent straight back into the address, but it won't run a
+  // user callback at build time. Codes below decode to "the@amiralsad.blog".
+  const email = [
+    116, 104, 101, 64, 97, 109, 105, 114, 97, 108, 115, 97, 100, 46, 98, 108,
+    111, 103,
+  ]
+    .map((c) => String.fromCharCode(c))
+    .join("");
   return (
-    <footer 
+    <footer
       className="mt-20 py-8 px-[20px] md:px-[32px] text-center border-t-[3px] border-[var(--ink)]"
       style={{
         background: `
@@ -32,6 +47,13 @@ export function Footer() {
       <div className="font-mono text-[11px] font-bold tracking-[0.08em] uppercase text-[var(--ink)]">
         WRITING.AMIRALSAD.BLOG / SUMMER 2026
       </div>
+      <a
+        href={`mailto:${email}`}
+        aria-label="Email"
+        className="mt-[10px] inline-block font-mono text-[11px] font-bold tracking-[0.06em] text-[var(--ink)]! underline decoration-[var(--hot-pink)] decoration-2 underline-offset-[3px] transition-colors hover:text-[var(--hot-pink)]! hover:bg-transparent focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
+      >
+        {email}
+      </a>
     </footer>
   );
 }
