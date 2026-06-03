@@ -1,9 +1,28 @@
+import { lazy, Suspense } from "react";
 import { useRoute, Link } from "wouter";
 import { getPostBySlug, getAdjacentPosts } from "@/lib/content";
 import { resolveImage } from "@/lib/images";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
 import { Footer } from "@/components/Layout";
 import NotFound from "@/pages/not-found";
+
+// react-pdf + PDF.js are heavy (~1 MB worker). Load them only on posts that
+// actually embed a PDF, so the feed and text-only posts stay light.
+const PdfDoc = lazy(() => import("@/components/PdfDoc"));
+
+// Shared prose styling for each rendered Markdown chunk. Extracted so every
+// prose block between inline embeds (PDFs) reads identically.
+const ARTICLE_PROSE = `article-body prose prose-lg max-w-none
+  prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-[var(--ink)] prose-headings:mt-[2em] prose-headings:mb-[0.5em]
+  prose-p:font-serif prose-p:text-[var(--ink)] prose-p:text-[20px] prose-p:leading-[1.75] prose-p:mt-[1.5em] prose-p:mb-0
+  prose-a:text-[var(--hot-pink)] prose-a:no-underline hover:prose-a:underline hover:prose-a:decoration-2 hover:prose-a:underline-offset-[3px]
+  prose-blockquote:font-editorial prose-blockquote:italic prose-blockquote:border-l-4 prose-blockquote:border-[var(--hot-pink)] prose-blockquote:pl-[20px] prose-blockquote:my-[2em] prose-blockquote:text-[22px] prose-blockquote:leading-[1.5] prose-blockquote:text-[var(--ink-soft)]
+  prose-code:font-mono prose-code:bg-[var(--paper-2)] prose-code:border prose-code:border-[var(--rule-soft)] prose-code:rounded-[2px] prose-code:px-[4px] prose-code:py-[2px] prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none
+  prose-img:border-[3px] prose-img:border-[var(--ink)] prose-img:shadow-[5px_5px_0_var(--ink)] prose-img:my-[48px]
+  prose-ul:font-serif prose-ul:text-[20px] prose-ul:leading-[1.75] prose-ul:my-[1.5em]
+  prose-ol:font-serif prose-ol:text-[20px] prose-ol:leading-[1.75] prose-ol:my-[1.5em]
+  prose-li:mt-[0.5em]
+  [&>*:first-child]:mt-0`;
 
 export default function Post() {
   const [, params] = useRoute("/:slug");
@@ -70,21 +89,27 @@ export default function Post() {
             </figure>
           )}
 
-          {/* Body */}
-          <article
-            className="article-body prose prose-lg max-w-none
-              prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-[var(--ink)] prose-headings:mt-[2em] prose-headings:mb-[0.5em]
-              prose-p:font-serif prose-p:text-[var(--ink)] prose-p:text-[20px] prose-p:leading-[1.75] prose-p:mt-[1.5em] prose-p:mb-0
-              prose-a:text-[var(--hot-pink)] prose-a:no-underline hover:prose-a:underline hover:prose-a:decoration-2 hover:prose-a:underline-offset-[3px]
-              prose-blockquote:font-editorial prose-blockquote:italic prose-blockquote:border-l-4 prose-blockquote:border-[var(--hot-pink)] prose-blockquote:pl-[20px] prose-blockquote:my-[2em] prose-blockquote:text-[22px] prose-blockquote:leading-[1.5] prose-blockquote:text-[var(--ink-soft)]
-              prose-code:font-mono prose-code:bg-[var(--paper-2)] prose-code:border prose-code:border-[var(--rule-soft)] prose-code:rounded-[2px] prose-code:px-[4px] prose-code:py-[2px] prose-code:text-[0.9em] prose-code:before:content-none prose-code:after:content-none
-              prose-img:border-[3px] prose-img:border-[var(--ink)] prose-img:shadow-[5px_5px_0_var(--ink)] prose-img:my-[48px]
-              prose-ul:font-serif prose-ul:text-[20px] prose-ul:leading-[1.75] prose-ul:my-[1.5em]
-              prose-ol:font-serif prose-ol:text-[20px] prose-ol:leading-[1.75] prose-ol:my-[1.5em]
-              prose-li:mt-[0.5em]
-              [&>*:first-child]:mt-0"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-          />
+          {/* Body — ordered prose chunks interleaved with inline embeds */}
+          {post.blocks.map((block, i) =>
+            block.type === "pdf" ? (
+              <Suspense
+                key={i}
+                fallback={
+                  <div className="my-[56px] flex items-center justify-center border-[3px] border-dashed border-[var(--rule-soft)] bg-[var(--paper-2)] px-[20px] py-[40px] text-center font-mono text-[12px] tracking-[0.04em] text-[var(--ink-mute)] uppercase">
+                    Loading document…
+                  </div>
+                }
+              >
+                <PdfDoc name={block.name} className="my-[56px]" />
+              </Suspense>
+            ) : (
+              <article
+                key={i}
+                className={ARTICLE_PROSE}
+                dangerouslySetInnerHTML={{ __html: block.html }}
+              />
+            ),
+          )}
 
           {/* Prev/Next nav */}
           <nav className="mt-[96px] grid grid-cols-1 md:grid-cols-2 gap-[12px]">

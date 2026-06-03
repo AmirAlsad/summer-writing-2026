@@ -49,6 +49,7 @@ date: 2026-05-24
 pinned: false
 image: "vice-city-1"               # optional — a file in content/images/
 image_caption: Optional caption    # optional
+reading_time: 45                   # optional — overrides the auto estimate
 ---
 
 Body in Markdown...
@@ -56,6 +57,9 @@ Body in Markdown...
 
 - A post is published once its `date` is on or before today.
 - `pinned: true` keeps a post at the top and excludes it from day numbering.
+- `reading_time` (optional, minutes) overrides the auto "X min read" estimate,
+  which is otherwise computed from the body word count. Set it when most of the
+  piece lives in an embedded PDF the word count can't see; omit it otherwise.
 - Files starting with `_` (e.g. `_template.md`) are ignored.
 - If `content/writing/` has no real posts yet, the site falls back
   to the samples in `content/examples/`.
@@ -64,6 +68,41 @@ Body in Markdown...
   in that folder and reference it here — there is no registration step;
   [`summer-2026/src/lib/images.ts`](summer-2026/src/lib/images.ts) globs the
   folder at build time. A name with no matching file renders no image.
+
+### Inline images
+
+Reference any image from `content/images/` directly in the body, by filename:
+
+```markdown
+![A caption](vice-city-1.png)
+```
+
+It resolves through the same registry as the hero image, so a bare filename
+works (with or without extension) and renders with the bordered, offset-shadow
+look. The hero image still goes in front matter — don't repeat it in the body.
+
+### Embedding PDFs (essays, slides, talks)
+
+Drop a `.pdf` into [`content/documents/`](content/documents) and embed it at any
+point in a piece with a marker on its own line:
+
+```markdown
+Some prose introducing the essay...
+
+:::pdf revolutionary-memory-essay
+
+More prose, then the talk:
+
+:::pdf revolutionary-memory-slides
+```
+
+The PDF renders as an inline paged viewer — one page at a time, with a page
+counter and an "Open original PDF" link. Readers move between pages by clicking
+the left/right side of the page, using the Prev / Next buttons, or the arrow
+keys. The name is the filename with or without `.pdf`; a name with no matching
+file shows a "Document not found" notice. Auto-discovered at build time by
+[`summer-2026/src/lib/documents.ts`](summer-2026/src/lib/documents.ts), the same
+way images are.
 
 ## Deploy (Netlify)
 

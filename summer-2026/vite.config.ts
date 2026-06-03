@@ -45,6 +45,11 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    // Never inline PDFs as base64 data URLs — they must stay real, fetchable
+    // files so PDF.js can stream them. (Small PDFs would otherwise be inlined
+    // under the default 4 kB threshold.) Other assets keep the default.
+    assetsInlineLimit: (filePath: string) =>
+      filePath.endsWith(".pdf") ? false : undefined,
   },
   server: {
     port,

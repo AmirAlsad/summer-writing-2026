@@ -21,6 +21,7 @@ date: 2026-06-01
 pinned: false
 image: "vice-city-1"
 image_caption: "Optional caption shown under the hero image."
+reading_time: 45
 ---
 ```
 
@@ -33,6 +34,10 @@ image_caption: "Optional caption shown under the hero image."
 - **image** — a filename from `content/images/`, with or without extension
   (`"vice-city-1"` or `"vice-city-1.png"` both work). Leave `""` for no image.
 - **image_caption** — caption under the hero image.
+- **reading_time** — *optional.* The "X min read" estimate is normally computed
+  from the body word count. Set this (a number, in minutes) to override it —
+  useful when most of the piece lives in an embedded PDF, which the word count
+  can't see. Omit it (or leave it blank) to use the automatic estimate.
 
 The filename sets the URL: `2026-06-01-start-here.md` → `/start-here`.
 
@@ -127,10 +132,45 @@ Image (inline, in the body of a post):
 ![alt text](image-filename.png)
 ```
 
+Drop image files into `content/images/` and reference them by filename, with or
+without the extension (`gnomo-palomo.jpg` or `gnomo-palomo`). A bare filename
+resolves automatically — there's no registration step. Images render with a
+black border and an offset drop shadow.
+
 For the **hero image** at the top of a post, use the `image` field in front
-matter instead — don't put it in the body. Drop image files into
-`content/images/` and reference them by filename. Images render with a black
-border and an offset drop shadow.
+matter instead — don't put it in the body.
+
+---
+
+## Embedding PDFs (essays, slides, talks)
+
+Drop a `.pdf` file into `content/documents/`, then embed it anywhere in the body
+with a marker on its **own line**:
+
+```
+:::pdf revolutionary-memory-essay
+```
+
+The PDF renders inline as a paged viewer: readers turn pages by clicking the
+left/right side of the page, using the Prev / Next buttons, or the arrow keys,
+with a page counter and a link to open the original. Use the filename with or
+without `.pdf`.
+
+You can interleave prose and PDFs freely — write an intro, embed the essay,
+write more, then embed the slides:
+
+```
+A few thoughts before the essay...
+
+:::pdf revolutionary-memory-essay
+
+And here's the talk I gave on it:
+
+:::pdf revolutionary-memory-slides
+```
+
+If the named file isn't in `content/documents/`, the post shows a small
+"Document not found" notice instead of breaking.
 
 ---
 
