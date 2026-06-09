@@ -204,7 +204,18 @@ p, .t-body {
   margin-top: 1.6em;
 }
 
-.article-body p:first-child {
+/* Heading rhythm. These must be unlayered (like `.article-body p` above) to
+   beat the unlayered `h2/h3/h4 { margin: 0 }` base rules — Tailwind's
+   `prose-headings:*` utilities live in a cascade layer and would otherwise
+   lose to those base rules, leaving headings with no space above them. */
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.article-body > :first-child {
   margin-top: 0;
 }
 

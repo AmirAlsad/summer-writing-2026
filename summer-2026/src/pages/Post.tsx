@@ -10,6 +10,10 @@ import NotFound from "@/pages/not-found";
 // actually embed a PDF, so the feed and text-only posts stay light.
 const PdfDoc = lazy(() => import("@/components/PdfDoc"));
 
+// AudioDoc is a thin wrapper over the native <audio> element — no heavy
+// dependency, so it's imported directly rather than lazy-loaded.
+import AudioDoc from "@/components/AudioDoc";
+
 // Shared prose styling for each rendered Markdown chunk. Extracted so every
 // prose block between inline embeds (PDFs) reads identically.
 const ARTICLE_PROSE = `article-body prose prose-lg max-w-none
@@ -60,7 +64,7 @@ export default function Post() {
           {/* Header block */}
           <div className="flex flex-col gap-[28px] mb-[72px]">
             <div className="font-mono text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--ink-mute)]">
-              {post.dayNumber ? `Day ${post.dayNumber} · ` : (post.pinned ? 'Intro · ' : '')}
+              {post.dayNumber ? `Day ${post.dayNumber} · ` : ''}
               <time dateTime={post.date}>{formattedDate}</time>
               {` · ${post.readingTimeMinutes} min read`}
             </div>
@@ -102,6 +106,8 @@ export default function Post() {
               >
                 <PdfDoc name={block.name} className="my-[56px]" />
               </Suspense>
+            ) : block.type === "audio" ? (
+              <AudioDoc key={i} name={block.name} className="my-[56px]" />
             ) : (
               <article
                 key={i}
@@ -119,7 +125,7 @@ export default function Post() {
                 className="link-block flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
               >
                 <span className="font-mono text-[10px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)]">
-                  &larr; {prev.pinned ? 'Intro' : `Day ${prev.dayNumber}`}
+                  &larr; Day {prev.dayNumber}
                 </span>
                 <span className="font-display font-extrabold text-[20px] leading-[1.05] text-[var(--ink)]">
                   {prev.title}
@@ -133,7 +139,7 @@ export default function Post() {
                 className="link-block flex flex-col gap-[4px] border-[3px] border-[var(--ink)] p-[16px_20px] shadow-[5px_5px_0_var(--ink)] text-right hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[8px_8px_0_var(--ink)] transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-[var(--hot-pink)] focus-visible:outline-offset-2"
               >
                 <span className="font-mono text-[10px] font-bold tracking-[0.08em] uppercase text-[var(--ink-mute)]">
-                  {next.pinned ? 'Intro' : `Day ${next.dayNumber}`} &rarr;
+                  Day {next.dayNumber} &rarr;
                 </span>
                 <span className="font-display font-extrabold text-[20px] leading-[1.05] text-[var(--ink)]">
                   {next.title}

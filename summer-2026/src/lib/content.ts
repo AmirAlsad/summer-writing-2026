@@ -4,9 +4,43 @@ import remarkHtml from "remark-html";
 import remarkGfm from "remark-gfm";
 import { resolveImage } from "./images";
 
+// Fold "smart"/exotic typography that authoring software silently inserts down
+// to plain ASCII, so it can't break parsing or drift from the house style.
+// Applied to the whole raw file (front matter + body) before any parsing.
+//
+//   • Quotes — every curly / angle quotation mark -> straight " or '. This is
+//     correctness as much as style: YAML only treats a *leading straight* `"`/`'`
+//     as a string delimiter, so a curly opening quote in front matter (e.g.
+//     `title: “Foo"`) makes YAML keep both quote chars literally and they leak
+//     into the rendered title/description.
+//   • Spaces — non-breaking and other Unicode space separators -> a normal space.
+//     They're invisible, so a stray one (notably in front matter) is near-
+//     impossible to spot yet can break YAML parsing or wrapping.
+//
+// Emoji, em/en dashes, and ellipses are deliberately left untouched — those are
+// wanted typography, not noise.
+const SMART_DOUBLE_QUOTES = /[“”„‟«»]/g; // “ ” „ ‟ « »
+const SMART_SINGLE_QUOTES = /[‘’‚‛‹›]/g; // ‘ ’ ‚ ‛ ‹ ›
+// Unicode "Zs" space separators (no-break, en/em, thin/hair, narrow no-break,
+// ideographic, …). Excludes zero-width chars on purpose: U+200D (ZWJ) is load-
+// bearing inside emoji sequences, and folding a zero-width char to a real space
+// would *insert* whitespace rather than remove noise.
+const UNICODE_SPACES = /[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g;
+
+function normalizeTypography(raw: string): string {
+  return raw
+    .replace(SMART_DOUBLE_QUOTES, '"')
+    .replace(SMART_SINGLE_QUOTES, "'")
+    .replace(UNICODE_SPACES, " ");
+}
+
+// Assumed reading speed. A typical ~225 wpm estimate runs too fast for this
+// writing and underestimates, so we read at half that pace.
+const READING_WPM = 112.5;
+
 function computeReadingMinutes(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 225));
+  return Math.max(1, Math.round(words / READING_WPM));
 }
 
 // The auto estimate only counts the Markdown body, so it badly underestimates
@@ -23,11 +57,12 @@ function resolveReadingMinutes(
 }
 
 // A rendered post body is an ordered list of blocks: prose (HTML) interleaved
-// with inline embeds like PDFs. This lets a piece read "text -> essay PDF ->
-// more text -> slides PDF" rather than dumping all embeds at the end.
+// with inline embeds like PDFs and audio. This lets a piece read "text -> essay
+// PDF -> more text -> podcast audio" rather than dumping all embeds at the end.
 export type PostBlock =
   | { type: "html"; html: string }
-  | { type: "pdf"; name: string };
+  | { type: "pdf"; name: string }
+  | { type: "audio"; name: string };
 
 export interface Post {
   slug: string;
@@ -72,9 +107,11 @@ function renderMarkdown(md: string): string {
     .toString();
 }
 
-// A line like `:::pdf revolutionary-memory-essay` (on its own line) becomes a
-// PDF embed at that exact point in the piece. Everything else is prose.
+// A line like `:::pdf revolutionary-memory-essay` or `:::audio my-podcast` (on
+// its own line) becomes an inline embed at that exact point in the piece.
+// Everything else is prose.
 const PDF_MARKER = /^:::pdf\s+(.+?)\s*$/;
+const AUDIO_MARKER = /^:::audio\s+(.+?)\s*$/;
 
 function parseBlocks(body: string): PostBlock[] {
   const blocks: PostBlock[] = [];
@@ -87,10 +124,14 @@ function parseBlocks(body: string): PostBlock[] {
   };
 
   for (const line of body.split("\n")) {
-    const match = line.match(PDF_MARKER);
-    if (match) {
+    const pdfMatch = line.match(PDF_MARKER);
+    const audioMatch = line.match(AUDIO_MARKER);
+    if (pdfMatch) {
       flush();
-      blocks.push({ type: "pdf", name: match[1].trim() });
+      blocks.push({ type: "pdf", name: pdfMatch[1].trim() });
+    } else if (audioMatch) {
+      flush();
+      blocks.push({ type: "audio", name: audioMatch[1].trim() });
     } else {
       buffer.push(line);
     }
@@ -123,6 +164,8 @@ const activeFiles: Record<string, string> = (() => {
 function parsePost(path: string, rawContent: string): Post | null {
   if (!isRealPost(path)) return null;
 
+  // Normalize typography (curly quotes, exotic spaces) on the raw file first, so
+  // none of it reaches the YAML parser (front matter) or the rendered prose.
   const parsed = fm<{
     title?: string;
     description?: string;
@@ -131,7 +174,7 @@ function parsePost(path: string, rawContent: string): Post | null {
     image?: string;
     image_caption?: string;
     reading_time?: number | string;
-  }>(rawContent);
+  }>(normalizeTypography(rawContent));
   const data = parsed.attributes;
   const content = parsed.body;
 
@@ -185,9 +228,9 @@ export function getPublishedPosts(): Post[] {
 
   const published = posts.filter(p => p.date <= todayStr);
 
-  // Assign day numbers to unpinned posts in chronological order
-  const unpinned = published.filter(p => !p.pinned).sort((a, b) => a.date.localeCompare(b.date));
-  unpinned.forEach((p, i) => { p.dayNumber = i + 1; });
+  // Assign day numbers to all posts in chronological order (pinned included)
+  const chronological = published.slice().sort((a, b) => a.date.localeCompare(b.date));
+  chronological.forEach((p, i) => { p.dayNumber = i + 1; });
 
   // Default sort: pinned first, then newest first
   published.sort((a, b) => {

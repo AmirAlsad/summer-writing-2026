@@ -106,23 +106,12 @@ export default function Home() {
                     <div className="flex gap-[24px] items-start p-[24px_28px]">
                     {/* Day / date column */}
                     <div className="shrink-0 w-[52px]">
-                      {post.pinned ? (
-                        <div className="flex flex-col gap-[6px]">
-                          <span className="inline-block font-mono text-[10px] font-bold tracking-[0.08em] border-[2px] border-[var(--ink)] bg-[var(--hot-pink)] text-[var(--paper)] px-[5px] py-[2px] leading-none">
-                            INTRO
-                          </span>
-                          <time dateTime={post.date} className="font-mono text-[10px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase">
-                            {m}.{d}
-                          </time>
-                        </div>
-                      ) : (
-                        <div className="font-display font-black text-[36px] leading-[0.9] tracking-[-1.5px] text-[var(--ink-mute)]">
-                          {String(post.dayNumber).padStart(2, '0')}
-                          <time dateTime={post.date} className="block font-mono text-[10px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase mt-[4px]">
-                            {m}.{d}
-                          </time>
-                        </div>
-                      )}
+                      <div className="font-display font-black text-[36px] leading-[0.9] tracking-[-1.5px] text-[var(--ink-mute)]">
+                        {String(post.dayNumber).padStart(2, '0')}
+                        <time dateTime={post.date} className="block font-mono text-[10px] font-medium tracking-[0.08em] text-[var(--ink-mute)] uppercase mt-[4px]">
+                          {m}.{d}
+                        </time>
+                      </div>
                     </div>
 
                     {/* Text */}

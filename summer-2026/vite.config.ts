@@ -45,11 +45,12 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    // Never inline PDFs as base64 data URLs — they must stay real, fetchable
-    // files so PDF.js can stream them. (Small PDFs would otherwise be inlined
-    // under the default 4 kB threshold.) Other assets keep the default.
+    // Never inline PDFs or audio as base64 data URLs — they must stay real,
+    // fetchable files so PDF.js / the <audio> element can stream them. (Small
+    // files would otherwise be inlined under the default 4 kB threshold.) Other
+    // assets keep the default.
     assetsInlineLimit: (filePath: string) =>
-      filePath.endsWith(".pdf") ? false : undefined,
+      /\.(pdf|mp3|m4a|wav|ogg|aac)$/.test(filePath) ? false : undefined,
   },
   server: {
     port,

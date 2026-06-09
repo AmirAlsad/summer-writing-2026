@@ -174,6 +174,38 @@ If the named file isn't in `content/documents/`, the post shows a small
 
 ---
 
+## Embedding audio (podcasts, recordings)
+
+Drop an audio file (`.mp3`, `.m4a`, `.wav`, `.ogg`, `.aac`) into `content/audio/`,
+then embed it anywhere in the body with a marker on its **own line**:
+
+```
+:::audio my-podcast
+```
+
+It renders inline as a player with a play/pause button, a scrubber you can drag,
+the elapsed / total time, and a link to open the original file. Use the filename
+with or without its extension.
+
+Just like PDFs, you can interleave prose and audio freely:
+
+```
+Here's the episode I recorded:
+
+:::audio my-podcast
+
+And a few thoughts after listening back...
+```
+
+If the named file isn't in `content/audio/`, the post shows a small "Audio not
+found" notice instead of breaking.
+
+Note: a player's runtime doesn't count toward the post's reading-time estimate
+(that's measured from the written body), so set `reading_time:` in the front
+matter for an audio-heavy piece — same as with PDFs.
+
+---
+
 ## Code
 
 Inline: `` `like this` `` renders as a bordered pill.
