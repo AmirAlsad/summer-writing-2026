@@ -3,8 +3,8 @@ title: "The Theater Kids"
 description: "A crazy comeback in the creator economy?"
 date: 2026-06-29
 pinned: false
-image: ""
-image_caption: ""
+image: "jester"
+image_caption: "Stańczyk, the main figure depicted in the painting, was the court jester when Poland was at the height of its political, economic and cultural power during the era of the Renaissance in Poland, during the reign of King Sigismund I the Old (reigned 1506–1548). He was a popular figure; besides his fame as a jester he has been described as an eloquent, witty, and intelligent man, using satire to comment on the nation's past, present, and future. Unlike jesters of other European courts, Stańczyk has always been considered as much more than a mere entertainer. Directly from Wikipedia."
 reading_time: ""
 ---
 
