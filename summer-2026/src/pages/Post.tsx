@@ -35,15 +35,25 @@ export default function Post() {
   const post = getPostBySlug(slug);
   const { prev, next } = getAdjacentPosts(slug);
 
+  // Every hook must run unconditionally, in the same order, on every render —
+  // so useDocumentMeta has to come BEFORE the `if (!post)` early return, not
+  // after it. During back-navigation this component briefly re-renders with the
+  // location already changed to "/" (its own useRoute sees the new location
+  // before the router unmounts it), so `post` is momentarily undefined. If the
+  // hook lived after the early return, that render would call one fewer hook
+  // than the previous one and React would throw "Rendered fewer hooks than
+  // expected", tearing down the whole app into a blank page (there's no error
+  // boundary to catch it). Keeping the hook above the return holds the count
+  // constant and fixes the blank-home-on-back bug.
+  useDocumentMeta({
+    title: post ? `${post.title} — Summer Writing '26` : "Summer Writing '26",
+    description: post?.description ?? "",
+    type: "article"
+  });
+
   if (!post) {
     return <NotFound />;
   }
-
-  useDocumentMeta({
-    title: `${post.title} — Summer Writing '26`,
-    description: post.description,
-    type: "article"
-  });
 
   const [y, m, d] = post.date.split('-');
   const formattedDate = `${m}.${d}.${y.slice(2)}`;
