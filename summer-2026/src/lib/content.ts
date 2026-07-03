@@ -98,10 +98,39 @@ function remarkResolveImages() {
   };
 }
 
+// Rewrite root-relative internal links (`[text](/slug)`) so they resolve under
+// the deployment base path. The body is rendered to raw HTML (`sanitize: false`)
+// and injected via dangerouslySetInnerHTML, so these become plain <a> tags that
+// wouter never sees — a bare `/slug` is absolute from the domain root. Locally
+// the base is `/` so that's fine, but in production the app is served under
+// `/summer-2026/` and `/slug` points outside it (Netlify only falls back to the
+// SPA shell for `/summer-2026/*`), so the link 404s. Prefixing BASE_URL keeps the
+// same `[text](/slug)` authoring convention working in both. Left untouched:
+// external links (`http:`, `mailto:`, protocol-relative `//host`), in-page
+// anchors (`#id`), relative links, and URLs already under the base.
+function remarkResolveLinks() {
+  const base = import.meta.env.BASE_URL; // Vite guarantees a trailing slash
+  return (tree: unknown) => {
+    const walk = (node: { type?: string; url?: string; children?: unknown[] }) => {
+      if (node.type === "link" && typeof node.url === "string") {
+        const url = node.url;
+        const isInternalRoot = url.startsWith("/") && !url.startsWith("//");
+        const alreadyBased = base !== "/" && url.startsWith(base);
+        if (isInternalRoot && !alreadyBased) node.url = base + url.slice(1);
+      }
+      if (Array.isArray(node.children)) {
+        for (const child of node.children) walk(child as typeof node);
+      }
+    };
+    walk(tree as { children?: unknown[] });
+  };
+}
+
 function renderMarkdown(md: string): string {
   return remark()
     .use(remarkGfm)
     .use(remarkResolveImages)
+    .use(remarkResolveLinks)
     .use(remarkHtml, { sanitize: false })
     .processSync(md)
     .toString();
